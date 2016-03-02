@@ -3,18 +3,19 @@
   <head>
     <base href="<%= data.code ? '../' : './' %>" />
     <title>JSDoc: <%= title %></title>
-    <link type="text/css" rel="stylesheet" href="css/jsdoc-default.css" />
+    <link type="text/css" rel="stylesheet" href="css/jsdoc-pbs.css" />
     <link href="css/prettify-tomorrow.css" type="text/css" rel="stylesheet" />
+    <script src="js/jquery.js"></script>
     <script src="js/prettify.js"></script>
   </head>
   <body>
     <nav>
       <h2><a href="index.html">Index</a></h2>
       <% for (var moduleName in nav) { var module = nav[moduleName]; %>
-        <% if (moduleName != 'undefined') { %>
-          <h3>module: <%= moduleName %></h3>
+        <% if (moduleName != 'undefined' && moduleName != 'docs') { %>
+          <h3 class="module-title"><%= moduleName %></h3>
         <% } %>
-        <ul>
+        <ul class="module-content" data-module="<%= moduleName %>">
           <% for (var groupName in module) { var group = module[groupName]; %>
             <h3><%= groupName %></h3>
             <ul>
@@ -62,6 +63,22 @@
       prettyPrint();
       var lineNo = window.location.hash.match(/#line([0-9]+)$/);
       lineNo && document.querySelector("ol li:nth-child("+(lineNo[1])+")").scrollIntoView();
+
+      $(function () {
+          $('.module-title').click(function (event) {
+              var moduleName = $(event.target).text();
+
+              var $moduleContent = $('ul.module-content[data-module="' + moduleName + '"]');
+
+              if ($moduleContent.hasClass('show')) {
+                  $moduleContent.removeClass('show');
+              }
+              else {
+                  $('ul.module-content').removeClass('show');
+                  $moduleContent.addClass('show');
+              }
+          });
+      });
     </script>
   </body>
 </html>
