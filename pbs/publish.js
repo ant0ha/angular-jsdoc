@@ -81,7 +81,7 @@ var hashToLink = function(doclet, hash) {
 };
 
 var generate = function(filepath, data) {
-  data.title = data.ngdoc + ":" + data.longname;
+  data.title = data.ngdoc + ":" + data.name;
   data.prettyJson = JSON.stringify(data,null,'  ');
   data.basePath = __dirname;
   data.marked = marked;
